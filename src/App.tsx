@@ -10,9 +10,18 @@ import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 
-type Object ={};
-
 type status = true | false;
+
+export type Object = {
+  id: number;
+  urls: { small: string };
+  alt_description: string;
+};
+
+type Response = {
+  total_pages: number;
+  results: [];
+};
 
 function App() {
   const [photos, setPhotos] = useState<Object[]>([]);
@@ -21,21 +30,21 @@ function App() {
   const [isError, setIsError] = useState<status>(false);
   const [page, setPage] = useState<number>(1);
   const [modalIsOpen, setIsOpen] = useState<status>(false);
-  const [selectedImg, setSelectedImg] = useState<null>(null);
+  const [selectedImg, setSelectedImg] = useState(null);
   const [totalPages, setTotalPages] = useState<status>(false);
 
   useEffect(() => {
     if (searchQuery.trim() === "") {
       return;
     }
-    async function getPhotos() {
+    async function getPhotos(): Promise<void> {
       try {
         setIsError(false);
         setIsLoader(true);
-        const resp = await getRespAPI(searchQuery, page);
+        const resp: Response = await getRespAPI(searchQuery, page);
         setTotalPages(page < Math.ceil(resp.total_pages / 20));
-        const res = await resp;
-        const photos = res.results;
+        console.log(resp);
+        const photos = resp.results;
         setPhotos((prevState) => [...prevState, ...photos]);
       } catch {
         setIsError(true);
@@ -46,26 +55,24 @@ function App() {
     getPhotos();
   }, [searchQuery, page]);
 
-  console.log(photos);
-
-  async function hadleSearch(topic) {
+  async function hadleSearch(topic: string): Promise<void> {
     setSearchQuery(topic);
     setPage(1);
     setPhotos([]);
   }
 
-  async function handleMoreBtn() {
+  async function handleMoreBtn(): Promise<void> {
     setPage((prevState) => prevState + 1);
   }
 
-  function openModal() {
+  function openModal(): void {
     setIsOpen(true);
   }
-  function closeModal() {
+  function closeModal(): void {
     setIsOpen(false);
   }
 
-  function handleSelectPhoto(photo) {
+  function handleSelectPhoto(photo: any): void {
     setSelectedImg(photo);
     openModal();
   }

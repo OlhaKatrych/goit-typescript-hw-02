@@ -15,7 +15,13 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-function ImageModal({ selectedImg, modalIsOpen, onIsCloseModal }) {
+type Props = {
+  selectedImg: { urls: { regular: string }; alt_description: string };
+  modalIsOpen: boolean;
+  onIsCloseModal: () => void;
+};
+
+function ImageModal({ selectedImg, modalIsOpen, onIsCloseModal }: Props) {
   return (
     <>
       <Modal
