@@ -1,12 +1,9 @@
 import css from "./ImageCard.module.css";
 import { MouseEvent } from "react";
+import { Photo } from "../../App";
 
 export type Props = {
-  item: {
-    id: number;
-    urls: { small: string };
-    alt_description: string;
-  };
+  item: Photo;
   handleSelectPhoto: (value: { id: number }) => void;
 };
 

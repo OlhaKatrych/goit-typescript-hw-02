@@ -1,6 +1,7 @@
 import css from "../src/App.module.css";
 
 import { useEffect, useState } from "react";
+
 import getRespAPI from "./photos-api";
 
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -10,28 +11,21 @@ import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 
-type status = true | false;
-
-export type Object = {
+export type Photo = {
   id: number;
   urls: { small: string };
   alt_description: string;
 };
 
-type Response = {
-  total_pages: number;
-  results: [];
-};
-
 function App() {
-  const [photos, setPhotos] = useState<Object[]>([]);
+  const [photos, setPhotos] = useState<Photo[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isLoader, setIsLoader] = useState<status>(false);
-  const [isError, setIsError] = useState<status>(false);
+  const [isLoader, setIsLoader] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [page, setPage] = useState<number>(1);
-  const [modalIsOpen, setIsOpen] = useState<status>(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedImg, setSelectedImg] = useState(null);
-  const [totalPages, setTotalPages] = useState<status>(false);
+  const [totalPages, setTotalPages] = useState(false);
 
   useEffect(() => {
     if (searchQuery.trim() === "") {
@@ -41,7 +35,7 @@ function App() {
       try {
         setIsError(false);
         setIsLoader(true);
-        const resp: Response = await getRespAPI(searchQuery, page);
+        const resp = await getRespAPI(searchQuery, page);
         setTotalPages(page < Math.ceil(resp.total_pages / 20));
         console.log(resp);
         const photos = resp.results;
