@@ -1,10 +1,10 @@
 import css from "./ImageGallery.module.css";
 
 import ImageCard from "../ImageCard/ImageCard";
-import { Object } from "../../App";
+import { Photo } from "../../App";
 
 type Props = {
-  data: Object[];
+  data: Photo[];
   handleSelectPhoto: (value: { id: number }) => void;
 };
 
