@@ -2,15 +2,7 @@ import css from "./ImageModal.module.css";
 
 import Modal from "react-modal";
 
-type Styles = "top" | "left" | "right" | "bottom" | "marginRight" | "transform";
-
-type ModalStyles = Record<Styles, string>;
-
-type ImageModalStyles = {
-  content: ModalStyles;
-};
-
-const customStyles: ImageModalStyles = {
+const customStyles: Modal.Styles = {
   content: {
     top: "50%",
     left: "50%",
